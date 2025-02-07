@@ -20,22 +20,22 @@ export default () => (
         position: "absolute",
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
-        height: Display.setHeight(8),
+        height: Display.setHeight(7),
         backgroundColor: Colors.DEFAULT_WHITE,
-        borderTopWidth: 0,
+        elevation: 5,
       },
+      tabBarItemStyle: { padding: 12 },
       tabBarShowLabel: false,
       tabBarActiveTintColor: Colors.DEFAULT_GREEN,
       tabBarInactiveTintColor: Colors.INACTIVE_GREY,
     }}
-    op
   >
     <BottomTabs.Screen
       name="Home"
       component={HomeScreen}
       options={{
         tabBarIcon: ({ color }) => (
-          <Ionicons name="home-outline" size={23} color={color} />
+          <Ionicons name="home-outline" size={25} color={color} />
         ),
       }}
     />
@@ -44,7 +44,7 @@ export default () => (
       component={BookmarkScreen}
       options={{
         tabBarIcon: ({ color }) => (
-          <Ionicons name="bookmark-outline" size={23} color={color} />
+          <Ionicons name="bookmark-outline" size={25} color={color} />
         ),
       }}
     />
@@ -53,7 +53,7 @@ export default () => (
       component={CartScreen}
       options={{
         tabBarIcon: ({ color }) => (
-          <Ionicons name="cart-outline" size={23} color={color} />
+          <Ionicons name="cart-outline" size={25} color={color} />
         ),
       }}
     />
@@ -62,7 +62,7 @@ export default () => (
       component={AccountScreen}
       options={{
         tabBarIcon: ({ color }) => (
-          <Ionicons name="person-outline" size={23} color={color} />
+          <Ionicons name="person-outline" size={25} color={color} />
         ),
       }}
     />
