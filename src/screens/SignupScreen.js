@@ -84,6 +84,8 @@ const SignupScreen = ({ navigation }) => {
       setIsLoading(false);
       if (!response?.status) {
         setErrorMessage(response?.message);
+      } else {
+        navigation.navigate("Signin");
       }
     });
   };
