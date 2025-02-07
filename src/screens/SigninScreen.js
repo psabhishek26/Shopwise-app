@@ -127,7 +127,11 @@ const SigninScreen = ({ navigation }) => {
         activeOpacity={0.8}
       >
         {isLoading ? (
-          <LottieView source={Images.LOADING} autoPlay />
+          <LottieView
+            source={Images.LOADING}
+            autoPlay
+            style={styles.lottie}
+          />
         ) : (
           <Text style={styles.signinButtonText}>Sign In</Text>
         )}
@@ -337,6 +341,10 @@ const styles = StyleSheet.create({
     marginTop: 3,
     marginBottom: 10,
   },
+  lottie: {
+    width: 50,
+    height: 50,
+  }
 });
 
 export default SigninScreen;

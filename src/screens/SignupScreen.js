@@ -86,7 +86,6 @@ const SignupScreen = ({ navigation }) => {
         setErrorMessage(response?.message);
       }
     });
-    // navigation.navigate('RegisterPhone')
   };
 
   const checkUserExist = async (type, value) => {
@@ -206,7 +205,7 @@ const SignupScreen = ({ navigation }) => {
       <Text style={styles.errorMessage}>{errorMessage}</Text>
       <TouchableOpacity style={styles.signinButton} onPress={() => register()}>
         {isLoading ? (
-          <LottieView source={Images.LOADING} autoPlay />
+          <LottieView source={Images.LOADING} autoPlay style={styles.lottie} />
         ) : (
           <Text style={styles.signinButtonText}>Create Account</Text>
         )}
@@ -361,6 +360,10 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.POPPINS_MEDIUM,
     marginHorizontal: 20,
     marginVertical: 3,
+  },
+  lottie: {
+    width: 50,
+    height: 50,
   },
 });
 
