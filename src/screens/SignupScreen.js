@@ -138,7 +138,7 @@ const SignupScreen = ({ navigation }) => {
         <View style={styles.inputSubContainer}>
           <Feather
             name="user"
-            size={22}
+            size={18}
             color={Colors.DEFAULT_GREY}
             style={{ marginRight: 10 }}
           />
@@ -160,7 +160,7 @@ const SignupScreen = ({ navigation }) => {
         <View style={styles.inputSubContainer}>
           <Feather
             name="mail"
-            size={22}
+            size={18}
             color={Colors.DEFAULT_GREY}
             style={{ marginRight: 10 }}
           />
@@ -182,7 +182,7 @@ const SignupScreen = ({ navigation }) => {
         <View style={styles.inputSubContainer}>
           <Feather
             name="lock"
-            size={22}
+            size={18}
             color={Colors.DEFAULT_GREY}
             style={{ marginRight: 10 }}
           />
@@ -196,7 +196,7 @@ const SignupScreen = ({ navigation }) => {
           />
           <Feather
             name={isPasswordShow ? "eye" : "eye-off"}
-            size={22}
+            size={18}
             color={Colors.DEFAULT_GREY}
             style={{ marginRight: 10 }}
             onPress={() => setIsPasswordShow(!isPasswordShow)}
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   title: {
-    fontSize: 20,
+    fontSize: 25,
     fontFamily: Fonts.POPPINS_MEDIUM,
     lineHeight: 20 * 1.4,
     marginTop: 50,
@@ -261,11 +261,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   content: {
-    fontSize: 20,
-    fontFamily: Fonts.POPPINS_MEDIUM,
+    fontSize: 16,
+    fontFamily: Fonts.POPPINS_REGULAR,
     marginTop: 10,
     marginBottom: 20,
     marginHorizontal: 20,
+    width: Display.setWidth(80),
   },
   inputContainer: {
     backgroundColor: Colors.LIGHT_GREY,
@@ -281,7 +282,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   inputText: {
-    fontSize: 18,
+    fontSize: 15,
     textAlignVertical: "center",
     padding: 0,
     height: Display.setHeight(6),
@@ -298,8 +299,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   signinButtonText: {
-    fontSize: 18,
-    lineHeight: 18 * 1.4,
+    fontSize: 16,
+    lineHeight: 16 * 1.4,
     color: Colors.DEFAULT_WHITE,
     fontFamily: Fonts.POPPINS_MEDIUM,
   },
@@ -310,7 +311,8 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.POPPINS_MEDIUM,
     marginLeft: 5,
     alignSelf: "center",
-    marginTop: 20,
+    marginTop: "6%",
+    marginBottom: "2%",
   },
   facebookButton: {
     backgroundColor: Colors.FABEBOOK_BLUE,
