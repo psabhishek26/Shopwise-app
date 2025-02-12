@@ -15,12 +15,12 @@ import { Colors, Fonts, Images } from "../contants";
 import { Display } from "../utils";
 import { AuthenicationService, StorageService } from "../services";
 import LottieView from "lottie-react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { GeneralAction } from "../actions";
 
 const SigninScreen = ({ navigation }) => {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -30,7 +30,7 @@ const SigninScreen = ({ navigation }) => {
   const signIn = async () => {
     setIsLoading(true);
     let user = {
-      username,
+      email,
       password,
     };
     AuthenicationService.login(user).then((response) => {
@@ -63,7 +63,7 @@ const SigninScreen = ({ navigation }) => {
       </View>
       <Text style={styles.title}>Welcome</Text>
       <Text style={styles.content}>
-        Enter your username and password, and enjoy ordering food
+        Enter your email and password, and enjoy ordering food
       </Text>
       <View style={styles.inputContainer}>
         <View style={styles.inputSubContainer}>
@@ -74,11 +74,11 @@ const SigninScreen = ({ navigation }) => {
             style={{ marginRight: 10 }}
           />
           <TextInput
-            placeholder="Username"
+            placeholder="Email"
             placeholderTextColor={Colors.DEFAULT_GREY}
             selectionColor={Colors.DEFAULT_GREY}
             style={styles.inputText}
-            onChangeText={(text) => setUsername(text)}
+            onChangeText={(text) => setEmail(text)}
           />
         </View>
       </View>
