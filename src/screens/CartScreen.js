@@ -1,9 +1,7 @@
-import React from "react";
 import {
   View,
   Text,
   StyleSheet,
-  StatusBar,
   ScrollView,
   TouchableOpacity,
   Image,
@@ -11,21 +9,18 @@ import {
 import { Colors, Fonts, Images } from "../contants";
 import { FoodCard, Separator } from "../components";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import Entypo from "@expo/vector-icons/Entypo";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import { Display } from "../utils";
 import { useSelector } from "react-redux";
 
 const CartScreen = ({ navigation }) => {
   const cart = useSelector((state) => state?.cartState?.cart);
+
+  const handleShopwise = () => {
+    navigation.navigate("ShopOptimizer", { cartItems: cart.cartItems });
+  };
+
   return (
     <View style={styles.container}>
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor={Colors.DEFAULT_WHITE}
-        translucent
-      />
-      <Separator height={StatusBar.currentHeight} />
       <View style={styles.headerContainer}>
         <Ionicons
           name="chevron-back-outline"
@@ -40,64 +35,48 @@ const CartScreen = ({ navigation }) => {
             <View style={styles.foodList}>
               {cart?.cartItems?.map((item) => (
                 <FoodCard
-                  {...item?.food}
-                  key={item?.food?.id}
+                  {...item?.item}
+                  key={item?.item?._id}
                   navigate={() =>
-                    navigation.navigate("Food", { foodId: item?.id })
+                    navigation.navigate("Item", { item: item?.item })
                   }
                 />
               ))}
-            </View>
-            <View style={styles.promoCodeContainer}>
-              <View style={styles.rowAndCenter}>
-                <Entypo name="ticket" size={30} color={Colors.DEFAULT_YELLOW} />
-                <Text style={styles.promoCodeText}>Add Promo Code</Text>
-              </View>
-              <Ionicons
-                name="chevron-forward-outline"
-                size={20}
-                color={Colors.DEFAULT_BLACK}
-              />
             </View>
             <View style={styles.amountContainer}>
               <View style={styles.amountSubContainer}>
                 <Text style={styles.amountLabelText}>Item Total</Text>
                 <Text style={styles.amountText}>
-                  $ {cart?.metaData?.itemsTotal?.toFixed(2)}
+                  ₹ {cart?.metaData?.itemsTotal?.toFixed(2)}
                 </Text>
               </View>
               <View style={styles.amountSubContainer}>
                 <Text style={styles.amountLabelText}>Discount</Text>
                 <Text style={styles.amountText}>
-                  $ {cart?.metaData?.discount?.toFixed(2)}
-                </Text>
-              </View>
-              <View style={styles.amountSubContainer}>
-                <Text style={styles.amountLabelText}>Delivery Fee</Text>
-                <Text
-                  style={{ ...styles.amountText, color: Colors.DEFAULT_GREEN }}
-                >
-                  Free
+                  ₹ {cart?.metaData?.discount?.toFixed(2)}
                 </Text>
               </View>
             </View>
             <View style={styles.totalContainer}>
               <Text style={styles.totalText}>Total</Text>
               <Text style={styles.totalText}>
-                $ {cart?.metaData?.grandTotal?.toFixed(2)}
+                ₹ {cart?.metaData?.grandTotal?.toFixed(2)}
               </Text>
             </View>
-            <TouchableOpacity style={styles.checkoutButton}>
+            <TouchableOpacity
+              style={styles.checkoutButton}
+              onPress={() => handleShopwise()}
+            >
               <View style={styles.rowAndCenter}>
                 <Ionicons
                   name="cart-outline"
                   color={Colors.DEFAULT_WHITE}
                   size={20}
                 />
-                <Text style={styles.checkoutText}>Checkout</Text>
+                <Text style={styles.checkoutText}>Shopwise</Text>
               </View>
               <Text style={styles.checkoutText}>
-                $ {cart?.metaData?.grandTotal?.toFixed(2)}
+                ₹ {cart?.metaData?.grandTotal?.toFixed(2)}
               </Text>
             </TouchableOpacity>
             <Separator height={Display.setHeight(9)} />
@@ -111,13 +90,7 @@ const CartScreen = ({ navigation }) => {
             resizeMode="contain"
           />
           <Text style={styles.emptyCartText}>Cart Empty</Text>
-          <Text style={styles.emptyCartSubText}>
-            Go ahead and order some tasty food
-          </Text>
-          <TouchableOpacity style={styles.addButtonEmpty}>
-            <AntDesign name="plus" color={Colors.DEFAULT_WHITE} size={20} />
-            <Text style={styles.addButtonEmptyText}>Add Food</Text>
-          </TouchableOpacity>
+          <Text style={styles.emptyCartSubText}>The wise way to shop</Text>
           <Separator height={Display.setHeight(15)} />
         </View>
       )}
