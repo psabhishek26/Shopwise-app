@@ -11,7 +11,7 @@ import {
 import { Separator, ToggleButton } from "../components";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Feather from "@expo/vector-icons/Feather";
-import { Colors, Fonts, Images } from "../contants";
+import { Colors, Fonts, Images, Lottie } from "../contants";
 import { Display } from "../utils";
 import { AuthenicationService, StorageService } from "../services";
 import LottieView from "lottie-react-native";
@@ -128,7 +128,7 @@ const SigninScreen = ({ navigation }) => {
       >
         {isLoading ? (
           <LottieView
-            source={Images.LOADING}
+            source={Lottie.LOADING}
             autoPlay
             style={styles.lottie}
           />

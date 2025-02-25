@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { Colors, Fonts, Images } from "../contants";
+import { Colors, Fonts, Images, Lottie } from "../contants";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { Separator } from "../components";
@@ -207,7 +207,7 @@ const SignupScreen = ({ navigation }) => {
       <Text style={styles.errorMessage}>{errorMessage}</Text>
       <TouchableOpacity style={styles.signinButton} onPress={() => register()}>
         {isLoading ? (
-          <LottieView source={Images.LOADING} autoPlay style={styles.lottie} />
+          <LottieView source={Lottie.LOADING} autoPlay style={styles.lottie} />
         ) : (
           <Text style={styles.signinButtonText}>Create Account</Text>
         )}
