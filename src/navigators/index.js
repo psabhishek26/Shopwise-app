@@ -6,12 +6,6 @@ import {
   WelcomeScreen,
   SigninScreen,
   SignupScreen,
-  ForgotPasswordScreen,
-  RegisterPhoneScreen,
-  VerificationScreen,
-  HomeScreen,
-  RestaurantScreen,
-  FoodScreen,
 } from "../screens";
 import HomeTabs from "./BottomTabs";
 import { useSelector, useDispatch } from "react-redux";
@@ -41,21 +35,10 @@ const Navigators = () => {
             )}
             <Stack.Screen name="Signin" component={SigninScreen} />
             <Stack.Screen name="Signup" component={SignupScreen} />
-            <Stack.Screen
-              name="ForgotPassword"
-              component={ForgotPasswordScreen}
-            />
-            <Stack.Screen
-              name="RegisterPhone"
-              component={RegisterPhoneScreen}
-            />
-            <Stack.Screen name="Verification" component={VerificationScreen} />
           </>
         ) : (
           <>
             <Stack.Screen name="HomeTabs" component={HomeTabs} />
-            <Stack.Screen name="Restaurant" component={RestaurantScreen} />
-            <Stack.Screen name="Food" component={FoodScreen} />
           </>
         )}
       </Stack.Navigator>
