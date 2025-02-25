@@ -5,13 +5,13 @@ const types = {
   SET_IS_LOADING: "SET_IS_LOADING",
 };
 
-const addToCart = ({ foodId }) => {
+const addToCart = ({ itemId }) => {
   return (dispatch) => {
     dispatch({
       type: types.SET_IS_LOADING,
       payload: true,
     });
-    CartService.addToCart({ foodId })
+    CartService.addToCart({ itemId })
       .then((cartResponse) => {
         dispatch({
           type: types.GET_CART_ITEMS,
@@ -31,13 +31,13 @@ const addToCart = ({ foodId }) => {
   };
 };
 
-const removeFromCart = ({ foodId }) => {
+const removeFromCart = ({ itemId }) => {
   return (dispatch) => {
     dispatch({
       type: types.SET_IS_LOADING,
       payload: true,
     });
-    CartService.removeFromCart({ foodId })
+    CartService.removeFromCart({ itemId })
       .then((cartResponse) => {
         dispatch({
           type: types.GET_CART_ITEMS,
