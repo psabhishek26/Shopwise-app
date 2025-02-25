@@ -32,11 +32,11 @@ const getCartItems = async () => {
   }
 };
 
-const addToCart = async ({ foodId }) => {
+const addToCart = async ({ itemId }) => {
   console.log(`CartService | addToCart`);
   try {
     let response = await axios.post(
-      `${ApiContants.BACKEND_API.BASE_API_URL}${ApiContants.BACKEND_API.CART}/${foodId}`,
+      `${ApiContants.BACKEND_API.BASE_API_URL}${ApiContants.BACKEND_API.CART}/${itemId}`,
       {},
       {
         headers: authHeader(getToken()),
@@ -63,11 +63,11 @@ const addToCart = async ({ foodId }) => {
   }
 };
 
-const removeFromCart = async ({ foodId }) => {
+const removeFromCart = async ({ itemId }) => {
   console.log(`CartService | removeFromCart`);
   try {
     let response = await axios.delete(
-      `${ApiContants.BACKEND_API.BASE_API_URL}${ApiContants.BACKEND_API.CART}/${foodId}`,
+      `${ApiContants.BACKEND_API.BASE_API_URL}${ApiContants.BACKEND_API.CART}/${itemId}`,
       {
         headers: authHeader(getToken()),
       }

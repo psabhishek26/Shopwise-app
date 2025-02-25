@@ -29,12 +29,12 @@ const register = async (user) => {
 };
 
 const login = async (user) => {
-  if (!user?.username || !user?.password) {
+  if (!user?.email || !user?.password) {
     return { status: false, message: "Please fill up all fields" };
   }
   try {
     let requestBody = {
-      username: user?.username,
+      email: user?.email,
       password: user?.password,
     };
     let loginResponse = await AuthRequest.post(
