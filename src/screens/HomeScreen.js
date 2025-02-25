@@ -3,171 +3,104 @@ import {
   View,
   Text,
   StyleSheet,
-  StatusBar,
-  ScrollView,
-  FlatList,
+  Image,
   TouchableOpacity,
+  Animated,
+  ImageBackground,
 } from "react-native";
-import {
-  CategoryMenuItem,
-  RestaurantCard,
-  RestaurantMediumCard,
-  Separator,
-} from "../components";
-import { Colors, Fonts, Mock } from "../contants";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import Feather from "@expo/vector-icons/Feather";
-import { RestaurantService } from "../services";
+import { Separator } from "../components";
+import { Colors, Fonts, Images } from "../contants";
+import { ItemService } from "../services";
 import { Display } from "../utils";
 
-const sortStyle = (isActive) =>
-  isActive
-    ? styles.sortListItem
-    : { ...styles.sortListItem, borderBottomColor: Colors.DEFAULT_WHITE };
-
 const HomeScreen = ({ navigation }) => {
-  const [activeCategory, setActiveCategory] = useState();
-  const [restaurants, setRestaurants] = useState(null);
-  const [activeSortItem, setActiveSortItem] = useState("recent");
+  const [items, setItems] = useState([]);
+  const scrollY = new Animated.Value(0);
+
+  const headerHeight = scrollY.interpolate({
+    inputRange: [0, 100],
+    outputRange: [80, 50],
+    extrapolate: "clamp",
+  });
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      RestaurantService.getRestaurants().then((response) => {
+      ItemService.getItems().then((response) => {
         if (response?.status) {
-          setRestaurants(response?.data);
+          setItems(response.data);
         }
       });
     });
     return unsubscribe;
   }, []);
 
-  return (
-    <View style={styles.container}>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor={Colors.DEFAULT_GREEN}
-        translucent
-      />
-      <Separator height={StatusBar.currentHeight} />
-      <View style={styles.backgroundCurvedContainer} />
-      <View style={styles.headerContainer}>
-        <View style={styles.locationContainer}>
-          <Ionicons
-            name="location-outline"
-            size={15}
-            color={Colors.DEFAULT_WHITE}
-          />
-          <Text style={styles.locationText}>Delivered to</Text>
-          <Text style={styles.selectedLocationText}>HOME</Text>
-          <MaterialIcons
-            name="keyboard-arrow-down"
-            size={16}
-            color={Colors.DEFAULT_YELLOW}
-          />
-          <Feather
-            name="bell"
-            size={24}
-            color={Colors.DEFAULT_WHITE}
-            style={{ position: "absolute", right: 0 }}
-          />
-          <View style={styles.alertBadge}>
-            <Text style={styles.alertBadgeText}>12</Text>
-          </View>
-        </View>
-        <View style={styles.searchContainer}>
-          <View style={styles.searchSection}>
-            <Ionicons
-              name="search-outline"
-              size={25}
-              color={Colors.DEFAULT_GREY}
-            />
-            <Text style={styles.searchText}>Search..</Text>
-          </View>
-          <Feather
-            name="sliders"
-            size={20}
-            color={Colors.DEFAULT_YELLOW}
-            style={{ marginRight: 10 }}
-          />
-        </View>
-        <View style={styles.categoriesContainer}>
-          {Mock.CATEGORIES.map(({ name, logo }) => (
-            <CategoryMenuItem
-              key={name}
-              name={name}
-              logo={logo}
-              activeCategory={activeCategory}
-              setActiveCategory={setActiveCategory}
-            />
-          ))}
+  const renderHeader = () => (
+    <Animated.View style={[styles.header, { height: headerHeight }]}>
+      <View style={styles.headerContent}>
+        <Text style={styles.logo}>Shopwise</Text>
+        <View style={styles.headerRight}>
+          <Image style={styles.profileImage} source={Images.AVATAR} />
         </View>
       </View>
-      <ScrollView style={styles.listContainer}>
-        <View style={styles.horizontalListContainer}>
-          <View style={styles.listHeader}>
-            <Text style={styles.listHeaderTitle}>Top Rated</Text>
-            <Text style={styles.listHeaderSubtitle}>See All</Text>
-          </View>
-          <FlatList
-            data={restaurants}
-            keyExtractor={(item) => item?.id}
-            horizontal
-            ListHeaderComponent={() => <Separator width={20} />}
-            ListFooterComponent={() => <Separator width={20} />}
-            ItemSeparatorComponent={() => <Separator width={10} />}
-            renderItem={({ item }) => (
-              <RestaurantCard
-                {...item}
-                navigate={(restaurantId) =>
-                  navigation.navigate("Restaurant", { restaurantId })
-                }
-              />
-            )}
-          />
+    </Animated.View>
+  );
+
+  const renderHeroSection = () => (
+    <View style={styles.heroSection}>
+      <ImageBackground
+        source={Images.SHOPWISE_BANNER}
+        style={styles.heroBg}
+        resizeMode="cover"
+      >
+        <View style={styles.heroContent}>
+          <Text style={styles.heroTitle}>Discover Amazing Products</Text>
+          <Text style={styles.heroSubtitle}>The Wise Way to Shop</Text>
         </View>
-        <View style={styles.sortListContainer}>
+      </ImageBackground>
+    </View>
+  );
+
+  const renderProductGrid = () => (
+    <View style={styles.productsSection}>
+      <Text style={styles.sectionTitle}>Our Products</Text>
+      <View style={styles.productGrid}>
+        {items.map((item, index) => (
           <TouchableOpacity
-            style={sortStyle(activeSortItem === "recent")}
-            activeOpacity={0.8}
-            onPress={() => setActiveSortItem("recent")}
+            key={index}
+            style={styles.productCard}
+            onPress={() => navigation.navigate("Item", { item })}
           >
-            <Text style={styles.sortListItemText}>Recent</Text>
+            <Image
+              source={{
+                uri: `${process.env.EXPO_PUBLIC_BACKEND_URL}/uploads/${item.image}`,
+              }}
+              style={styles.productImage}
+            />
+            <View style={styles.productInfo}>
+              <Text style={styles.productName}>{item.name}</Text>
+              <Text style={styles.productPrice}>₹{item.price}</Text>
+              <Text style={styles.productShop}>By {item.shop.shopName}</Text>
+            </View>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={sortStyle(activeSortItem === "favorite")}
-            activeOpacity={0.8}
-            onPress={() => setActiveSortItem("favorite")}
-          >
-            <Text style={styles.sortListItemText}>Favorite</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={sortStyle(activeSortItem === "rating")}
-            activeOpacity={0.8}
-            onPress={() => setActiveSortItem("rating")}
-          >
-            <Text style={styles.sortListItemText}>Rating</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={sortStyle(activeSortItem === "popular")}
-            activeOpacity={0.8}
-            onPress={() => setActiveSortItem("popular")}
-          >
-            <Text style={styles.sortListItemText}>Popular</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={sortStyle(activeSortItem === "trending")}
-            activeOpacity={0.8}
-            onPress={() => setActiveSortItem("trending")}
-          >
-            <Text style={styles.sortListItemText}>Trending</Text>
-          </TouchableOpacity>
-        </View>
-        {restaurants?.map((item) => (
-          <RestaurantMediumCard {...item} key={item?.id} />
         ))}
-        <Separator height={Display.setHeight(5)} />
-      </ScrollView>
+      </View>
+    </View>
+  );
+
+  return (
+    <View style={styles.container}>
+      {renderHeader()}
+      <Animated.ScrollView
+        showsVerticalScrollIndicator={false}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: false }
+        )}
+      >
+        {renderHeroSection()}
+        {renderProductGrid()}
+        <Separator height={20} />
+      </Animated.ScrollView>
     </View>
   );
 };
@@ -175,132 +108,106 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.SECONDARY_WHITE,
+    backgroundColor: Colors.DEFAULT_WHITE,
   },
-  backgroundCurvedContainer: {
-    backgroundColor: Colors.DEFAULT_GREEN,
-    height: 2000,
-    position: "absolute",
-    top: -1 * (2000 - 230),
-    width: 2000,
-    borderRadius: 2000,
-    alignSelf: "center",
-    zIndex: -1,
+  header: {
+    backgroundColor: Colors.DEFAULT_WHITE,
+    elevation: 5,
   },
-  headerContainer: {
-    justifyContent: "space-evenly",
-  },
-  locationContainer: {
+  headerContent: {
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 10,
-    marginHorizontal: 20,
+    paddingHorizontal: 20,
+    height: "100%",
   },
-  locationText: {
-    color: Colors.DEFAULT_WHITE,
-    marginLeft: 5,
-    fontSize: 13,
-    lineHeight: 13 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
-  },
-  selectedLocationText: {
-    color: Colors.DEFAULT_YELLOW,
-    marginLeft: 5,
-    fontSize: 14,
-    lineHeight: 14 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
-  },
-  alertBadge: {
-    borderRadius: 32,
-    backgroundColor: Colors.DEFAULT_YELLOW,
-    justifyContent: "center",
-    alignItems: "center",
-    height: 16,
-    width: 16,
-    position: "absolute",
-    right: -2,
-    top: -10,
-  },
-  alertBadgeText: {
-    color: Colors.DEFAULT_WHITE,
-    fontSize: 10,
-    lineHeight: 10 * 1.4,
+  logo: {
+    fontSize: 24,
     fontFamily: Fonts.POPPINS_BOLD,
-  },
-  searchContainer: {
-    backgroundColor: Colors.DEFAULT_WHITE,
-    height: 45,
-    borderRadius: 8,
-    marginHorizontal: 20,
-    marginTop: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  searchSection: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginLeft: 10,
-  },
-  searchText: {
-    color: Colors.DEFAULT_GREY,
-    fontSize: 16,
-    lineHeight: 16 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
-    marginLeft: 10,
-  },
-  categoriesContainer: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    marginTop: 20,
-  },
-  listContainer: {
-    paddingVertical: 5,
-    zIndex: -5,
-  },
-  horizontalListContainer: {
-    marginTop: 30,
-  },
-  listHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginHorizontal: 20,
-    marginBottom: 5,
-  },
-  listHeaderTitle: {
     color: Colors.DEFAULT_BLACK,
-    fontSize: 16,
-    lineHeight: 16 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
   },
-  listHeaderSubtitle: {
-    color: Colors.DEFAULT_YELLOW,
-    fontSize: 13,
-    lineHeight: 13 * 1.4,
-    fontFamily: Fonts.POPPINS_MEDIUM,
-  },
-  sortListContainer: {
+  headerRight: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
     alignItems: "center",
-    backgroundColor: Colors.DEFAULT_WHITE,
-    marginTop: 8,
-    elevation: 1,
   },
-  sortListItem: {
+  profileImage: {
+    width: Display.setWidth(10),
+    height: Display.setWidth(10),
+    borderRadius: 50,
+  },
+  heroSection: {
+    height: 300,
+  },
+  heroBg: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.DEFAULT_YELLOW,
-    height: 40,
   },
-  sortListItemText: {
-    color: Colors.DEFAULT_BLACK,
-    fontSize: 13,
-    lineHeight: 13 * 1.4,
+  heroContent: {
+    backgroundColor: "rgba(0,0,0,0.6)",
+    padding: 20,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  heroTitle: {
+    fontSize: 32,
+    fontFamily: Fonts.POPPINS_BOLD,
+    color: Colors.DEFAULT_WHITE,
+    textAlign: "center",
+  },
+  heroSubtitle: {
+    fontSize: 16,
+    fontFamily: Fonts.POPPINS_MEDIUM,
+    color: Colors.DEFAULT_WHITE,
+    marginTop: 10,
+  },
+  sectionTitle: {
+    fontSize: 20,
     fontFamily: Fonts.POPPINS_SEMI_BOLD,
+    color: Colors.DEFAULT_BLACK,
+    marginBottom: 15,
+  },
+  productsSection: {
+    padding: 20,
+    marginBottom: 10,
+  },
+  productGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
+  productCard: {
+    width: "48%",
+    backgroundColor: Colors.DEFAULT_WHITE,
+    borderRadius: 15,
+    marginBottom: 15,
+    elevation: 3,
+    overflow: "hidden",
+  },
+  productImage: {
+    width: "100%",
+    height: 150,
+    resizeMode: "cover",
+  },
+  productInfo: {
+    padding: 12,
+  },
+  productName: {
+    fontSize: 14,
+    fontFamily: Fonts.POPPINS_SEMI_BOLD,
+    color: Colors.DEFAULT_BLACK,
+  },
+  productPrice: {
+    fontSize: 14,
+    fontFamily: Fonts.POPPINS_MEDIUM,
+    color: Colors.DEFAULT_GREEN,
+    marginTop: 4,
+  },
+  productShop: {
+    color: "gray",
+    fontSize: 12,
   },
 });
 
