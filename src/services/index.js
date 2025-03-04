@@ -3,6 +3,7 @@ import AuthenicationService from "./AuthenticationService";
 import StorageService from "./StorageService";
 import CartService from "./CartService";
 import ShopService from "./ShopService";
+import ItemService from "./ItemService";
 
 export {
   StaticImageService,
@@ -10,4 +11,5 @@ export {
   StorageService,
   CartService,
   ShopService,
+  ItemService,
 };
