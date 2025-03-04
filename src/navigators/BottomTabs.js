@@ -1,11 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {
-  AccountScreen,
-  BookmarkScreen,
-  CartScreen,
-  HomeScreen,
-} from "../screens";
+import { AccountScreen, CartScreen, HomeScreen } from "../screens";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Display } from "../utils";
 import { Colors } from "../contants";
@@ -36,15 +31,6 @@ export default () => (
       options={{
         tabBarIcon: ({ color }) => (
           <Ionicons name="home-outline" size={25} color={color} />
-        ),
-      }}
-    />
-    <BottomTabs.Screen
-      name="Bookmark"
-      component={BookmarkScreen}
-      options={{
-        tabBarIcon: ({ color }) => (
-          <Ionicons name="bookmark-outline" size={25} color={color} />
         ),
       }}
     />
