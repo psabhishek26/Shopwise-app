@@ -1,4 +1,5 @@
 import React from "react";
+import { StatusBar } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AccountScreen, CartScreen, HomeScreen } from "../screens";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -24,6 +25,20 @@ export default () => (
       tabBarActiveTintColor: Colors.DEFAULT_GREEN,
       tabBarInactiveTintColor: Colors.INACTIVE_GREY,
     }}
+    screenListeners={({ route }) => ({
+      state: (e) => {
+        if (e.data.state.index === 0) {
+          StatusBar.setBarStyle("dark-content");
+          StatusBar.setBackgroundColor(Colors.DEFAULT_WHITE);
+        } else if (e.data.state.index === 1) {
+          StatusBar.setBarStyle("dark-content");
+          StatusBar.setBackgroundColor(Colors.DEFAULT_WHITE);
+        } else if (e.data.state.index === 2) {
+          StatusBar.setBarStyle("light-content");
+          StatusBar.setBackgroundColor(Colors.DEFAULT_GREEN);
+        }
+      },
+    })}
   >
     <BottomTabs.Screen
       name="Home"
