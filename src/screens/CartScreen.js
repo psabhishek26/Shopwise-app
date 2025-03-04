@@ -7,7 +7,7 @@ import {
   Image,
 } from "react-native";
 import { Colors, Fonts, Images } from "../contants";
-import { FoodCard, Separator } from "../components";
+import { ItemCard, Separator } from "../components";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Display } from "../utils";
 import { useSelector } from "react-redux";
@@ -34,7 +34,7 @@ const CartScreen = ({ navigation }) => {
           <ScrollView>
             <View style={styles.foodList}>
               {cart?.cartItems?.map((item) => (
-                <FoodCard
+                <ItemCard
                   {...item?.item}
                   key={item?.item?._id}
                   navigate={() =>

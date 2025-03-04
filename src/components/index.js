@@ -1,11 +1,11 @@
 import WelcomeCard from "./WelcomeCard";
 import Separator from "./Separator";
 import ToggleButton from "./ToggleButton";
-import FoodCard from "./FoodCard";
+import ItemCard from "./ItemCard";
 
 export {
   WelcomeCard,
   Separator,
   ToggleButton,
-  FoodCard,
+  ItemCard,
 };

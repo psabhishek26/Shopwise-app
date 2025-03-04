@@ -1,23 +1,23 @@
-import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { ApiContants, Colors, Fonts } from "../contants";
-import { StaticImageService } from "../services";
+import { Colors, Fonts } from "../contants";
 import { Display } from "../utils";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { CartAction } from "../actions";
 
-const FoodCard = ({ id, name, description, price, image, navigate }) => {
+const ItemCard = ({ _id, name, description, price, image, navigate }) => {
   const dispatch = useDispatch();
   const itemCount = useSelector(
     (state) =>
-      state?.cartState?.cart?.cartItems?.find((item) => item?.foodId === id)
+      state?.cartState?.cart?.cartItems?.find((item) => item?.item?._id === _id)
         ?.count
   );
-  const addToCart = (foodId) => dispatch(CartAction.addToCart({ foodId }));
-  const removeFromCart = (foodId) =>
-    dispatch(CartAction.removeFromCart({ foodId }));
+
+  const addToCart = (itemId) => dispatch(CartAction.addToCart({ itemId }));
+
+  const removeFromCart = (itemId) =>
+    dispatch(CartAction.removeFromCart({ itemId }));
 
   return (
     <View style={styles.container}>
@@ -25,10 +25,7 @@ const FoodCard = ({ id, name, description, price, image, navigate }) => {
         <Image
           style={styles.image}
           source={{
-            uri: StaticImageService.getGalleryImage(
-              image,
-              ApiContants.STATIC_IMAGE.SIZE.SQUARE
-            ),
+            uri: `${process.env.EXPO_PUBLIC_BACKEND_URL}/uploads/${image}`,
           }}
         />
       </TouchableOpacity>
@@ -42,7 +39,7 @@ const FoodCard = ({ id, name, description, price, image, navigate }) => {
           </Text>
         </TouchableOpacity>
         <View style={styles.footerContainer}>
-          <Text style={styles.priceText}>$ {price}</Text>
+          <Text style={styles.priceText}>₹ {price}</Text>
           <View style={styles.itemAddContainer}>
             {itemCount > 0 ? (
               <>
@@ -50,7 +47,7 @@ const FoodCard = ({ id, name, description, price, image, navigate }) => {
                   name="minus"
                   color={Colors.DEFAULT_YELLOW}
                   size={18}
-                  onPress={() => removeFromCart(id)}
+                  onPress={() => removeFromCart(_id)}
                 />
                 <Text style={styles.itemCountText}>{itemCount}</Text>
               </>
@@ -60,7 +57,7 @@ const FoodCard = ({ id, name, description, price, image, navigate }) => {
               name="plus"
               color={Colors.DEFAULT_YELLOW}
               size={18}
-              onPress={() => addToCart(id)}
+              onPress={() => addToCart(_id)}
             />
           </View>
         </View>
@@ -133,4 +130,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FoodCard;
+export default ItemCard;
