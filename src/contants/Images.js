@@ -10,4 +10,5 @@ export default {
   MARKER: require("../assets/images/marker.png"),
   EMPTY_CART: require("../assets/images/empty_cart.png"),
   AVATAR: require("../assets/images/user_avatar.png"),
+  SHOPWISE_BANNER: require("../assets/images/shopwise_banner.jpg"),
 };
