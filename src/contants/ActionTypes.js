@@ -4,3 +4,8 @@ export const generalActionTypes = {
   SET_FIRST_TIME_USE: "SET_FIRST_TIME_USE",
   SET_USER_DATA: "SET_USER_DATA",
 };
+
+export const cartActionTypes = {
+  GET_CART_ITEMS: "GET_CART_ITEMS",
+  SET_IS_LOADING: "SET_IS_LOADING",
+};
