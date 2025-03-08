@@ -4,6 +4,7 @@ import StorageService from "./StorageService";
 import CartService from "./CartService";
 import ShopService from "./ShopService";
 import ItemService from "./ItemService";
+import MapDirectionService from "./MapDirectionService";
 
 export {
   StaticImageService,
@@ -12,4 +13,5 @@ export {
   CartService,
   ShopService,
   ItemService,
+  MapDirectionService,
 };
